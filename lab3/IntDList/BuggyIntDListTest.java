@@ -97,5 +97,8 @@ public class BuggyIntDListTest {
         assertEquals("Third item after reversal should be 34", 34, l.get(2));
         assertEquals("Fourth item after reversal should be 23", 23, l.get(3));
         assertEquals("Fifth item after reversal should be 12", 12, l.get(4));
+        assertEquals(".getBack() after reversal should be 12", 23, l.back.prev.val);
+        assertEquals(".getBack() after reversal should be 12", 34, l.back.prev.prev.val);
+        assertEquals(".getBack() after reversal should be 12", 45, l.back.prev.prev.prev.val);
     }
 }
