@@ -2,11 +2,13 @@ import java.util.ArrayList;
 
 public class UnionFind {
     int[] parent;
+    int count;
 
     /* Creates a UnionFind data structure holding n vertices. Initially, all
        vertices are in disjoint sets. */
     public UnionFind(int n) {
         parent = new int[n];
+        count = n;
         // set all the parents to be -1 to symbolize that they are disjoint
         for (int i = 0; i < n; i++) {
             parent[i] = -1;
@@ -16,10 +18,13 @@ public class UnionFind {
     /* Throws an exception if v1 is not a valid vertex. */
     private void validate(int v1) {
         // TODO
+        if(v1 > parent.length-1 || v1 < 0)
+            throw new IllegalArgumentException("index is larger than data structure's length");
     }
 
     /* Returns the size of the set v1 belongs to. */
     public int sizeOf(int v1) {
+        validate(v1);
         int root = find(v1);
         return -1 * parent[root];
     }
@@ -33,6 +38,10 @@ public class UnionFind {
     /* Returns true if nodes v1 and v2 are connected. */
     public boolean isConnected(int v1, int v2) {
         // TODO
+        int v1Root = find(v1);
+        int v2Root = find(v2);
+        if (v1Root == v2Root)
+            return true;
         return false;
     }
 
@@ -43,13 +52,33 @@ public class UnionFind {
        change the sets but may alter the internal structure of the data. */
     public void connect(int v1, int v2) {
         // TODO
+        int v1Root = find(v1);
+        int v2Root = find(v2);
+        if (v1Root == v2Root)
+            return;
+        /*v1 is a longer tree, hang v2 on v1*/
+        if(parent[v1Root] < parent[v2Root]){
+            parent[v1Root] += parent[v2Root];
+            parent[v2Root] = v1Root;
+        }else{
+            parent[v2Root] += parent[v1Root];
+            parent[v1Root] = v2Root;
+        }
+        count--;
     }
 
     /* Returns the root of the set v1 belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int v1) {
         // TODO
-        return -1;
+        validate(v1);
+        while(parent[v1] >= 0)
+            v1 = parent[v1];
+        return v1;
+    }
+
+    public int count(){
+        return count;
     }
 
 }
