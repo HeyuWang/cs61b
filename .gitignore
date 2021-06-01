@@ -7,6 +7,7 @@
 !.gitignore
 !library-fa20
 !foods.csv
+!*.pdf
 *.class
 *.log
 *.ctxt
